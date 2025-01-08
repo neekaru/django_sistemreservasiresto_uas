@@ -1,0 +1,152 @@
+<!-- templates/reservasi/daftar_reservasi.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Reservasi Restoran</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #ffffff;
+            --accent-color: #f8f9fa;
+        }
+        body {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+        }
+        .navbar {
+            background-color: var(--primary-color);
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: var(--secondary-color) !important;
+        }
+        .nav-link {
+            color: var(--secondary-color) !important;
+        }
+        .main-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        .container {
+            /* background-color: var(--secondary-color); */
+            border-radius: 15px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+        .table {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .table th {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        .table-hover tbody tr:hover {
+            background-color: var(--accent-color);
+        }
+        .status-icon {
+            margin-right: 5px;
+        }
+        .footer {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><i class="fas fa-utensils"></i> Sistem Reservasi Restoran</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Tentang</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Kontak</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Admin</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="main-content">
+    <div class="container">
+        <h1 class="text-center mb-4">Daftar Reservasi</h1>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col"><i class="fas fa-hashtag"></i> ID</th>
+                        <th scope="col"><i class="fas fa-user"></i> Nama Pelanggan</th>
+                        <th scope="col"><i class="far fa-calendar"></i> Tanggal</th>
+                        <th scope="col"><i class="far fa-clock"></i> Waktu</th>
+                        <th scope="col"><i class="fas fa-info-circle"></i> Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reservasi in reservasi_list %}
+                    <tr>
+                        <td>{{ reservasi.id }}</td>
+                        <td>{{ reservasi.pelanggan.nama }}</td>
+                        <td>{{ reservasi.tanggal_reservasi }}</td>
+                        <td>{{ reservasi.waktu_reservasi }}</td>
+                        <td>
+                            <span class="badge rounded-pill 
+                                {% if reservasi.status_reservasi == 'Diterima' %}bg-success
+                                {% elif reservasi.status_reservasi == 'Dibatalkan' %}bg-danger
+                                {% elif reservasi.status_reservasi == 'Selesai' %}bg-info
+                                {% elif reservasi.status_reservasi == 'Ditunda' %}bg-warning
+                                {% endif %}">
+                                <i class="status-icon 
+                                    {% if reservasi.status_reservasi == 'Diterima' %}fas fa-check
+                                    {% elif reservasi.status_reservasi == 'Dibatalkan' %}fas fa-times
+                                    {% elif reservasi.status_reservasi == 'Selesai' %}fas fa-flag-checkered
+                                    {% elif reservasi.status_reservasi == 'Ditunda' %}fas fa-pause
+                                    {% endif %}"></i>
+                                {{ reservasi.status_reservasi }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="footer text-center">
+    <div class="container">
+        <span>&copy; 2023 Sistem Reservasi Restoran. All rights reserved.</span>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
